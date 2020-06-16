@@ -1,4 +1,3 @@
-
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
@@ -51,7 +50,7 @@
                             </a>
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
+                            @csrf
                             </form>
                         </div>
                     </li>

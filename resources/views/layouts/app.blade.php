@@ -21,14 +21,22 @@
 </head>
 <body>
     <div id="app">
-        @include('nav')
-
+        @include('nav') {{--nav.blade.php--}}
+        @if(session()->has('message'))
+            <div class="alert alert-success" role="alert">
+                <strong>Success</strong> {{session()->get('message')}}
+            </div>
+        @endif
         <main class="py-4">
             <div class="container">
-                @yield('content')
+                @yield('content') {{--@section('content')--}}
             </div>
         </main>
     </div>
+    <script
+        src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+        crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 </body>
 </html>
