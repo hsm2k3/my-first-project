@@ -1916,7 +1916,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
+    var _this = this;
+
     console.log('Component mounted.');
+    axios.post('api/vue', {}).then(function (response) {
+      _this.test = response.data;
+    });
+  },
+  data: function data() {
+    return {
+      test: null
+    };
   },
   props: ['text', 'type']
 });
@@ -38115,7 +38125,7 @@ var render = function() {
     _c("button", {
       staticClass: "my-button",
       attrs: { type: _vm.type },
-      domProps: { textContent: _vm._s(_vm.text) }
+      domProps: { textContent: _vm._s(_vm.test) }
     })
   ])
 }
