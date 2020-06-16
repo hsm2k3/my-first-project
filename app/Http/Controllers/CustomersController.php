@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 class CustomersController extends Controller
 {
     //
+
+    public function __construct()
+    {
+        // this is middleware defined by the construct of the class
+        $this->middleware('auth')->except(['index']);
+    }
     public function index()
     {
 //        $customers = [
