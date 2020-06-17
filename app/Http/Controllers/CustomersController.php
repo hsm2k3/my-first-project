@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Customer;
+use App\Mail\WelcomeNewUserMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class CustomersController extends Controller
 {
@@ -51,13 +53,21 @@ class CustomersController extends Controller
     {
 
         $customer = Customer::create($this->validateRequest());
+
+        event(new NewCustomerHasRegistered());
+        Mail::to($customer->email)->send(new WelcomeNewUserMail());
+        // register to newsletter
+        dump('Registered to newsletter');
+
+        //slack notification to admin
+        dump('Slack message here');
 //        $customer = new Customer();
 //        $customer->name = request('name');
 //        $customer->email = request('email');
 //        $customer->active = request('active');
 //        $customer->save();
 //        dd(request('name'));
-        return redirect('customers');
+//        return redirect('customers');
     }
 
     public function show(Customer $customer)
