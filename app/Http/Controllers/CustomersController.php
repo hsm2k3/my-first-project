@@ -55,6 +55,8 @@ class CustomersController extends Controller
 
         $customer = Customer::create($this->validateRequest());
 
+        $this->storeImage($customer);
+
         event(new NewCustomerHasRegisteredEvent($customer));
 
 
@@ -64,7 +66,7 @@ class CustomersController extends Controller
 //        $customer->active = request('active');
 //        $customer->save();
 //        dd(request('name'));
-//        return redirect('customers');
+        return redirect('customers');
     }
 
     public function show(Customer $customer)
@@ -98,11 +100,47 @@ class CustomersController extends Controller
 
     private function validateRequest()
     {
-        return request()->validate([
+        return tap(request()->validate([
+            'name' => 'required|min:3',
+            'email' => 'required|email',
+            'active' => 'required',
+            'company_id' => 'required',
+        ]), function()
+        {
+            if(request()->hasFile('image'))
+            {
+                dd(\request()->image);
+                request()->validate([
+                    'image' => 'file|image|max:5120'
+                ]);
+            }
+        });
+/*
+        $validatedData = request()->validate([
             'name' => 'required|min:3',
             'email' => 'required|email',
             'active' => 'required',
             'company_id' => 'required',
         ]);
+
+        if(request()->hasFile('image'))
+        {
+            dd(\request()->image);
+            request()->validate([
+                'image' => 'file|image|max:5120'
+            ]);
+        }
+
+        return $validatedData;*/
+    }
+
+    private function storeImage($customer)
+    {
+        if(\request()->has('image'))
+        {
+            $customer->update([
+                'image' => \request()->image
+            ])
+        }
     }
 }
