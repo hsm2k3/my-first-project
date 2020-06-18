@@ -89,6 +89,9 @@ class CustomersController extends Controller
 
         $customer->update($this->validateRequest());
 
+        $this->storeImage($customer);
+
+
         return redirect('customers/'.$customer->id);
     }
 
@@ -109,7 +112,6 @@ class CustomersController extends Controller
         {
             if(request()->hasFile('image'))
             {
-                dd(\request()->image);
                 request()->validate([
                     'image' => 'file|image|max:5120'
                 ]);
@@ -136,11 +138,11 @@ class CustomersController extends Controller
 
     private function storeImage($customer)
     {
-        if(\request()->has('image'))
+        if(request()->has('image'))
         {
             $customer->update([
-                'image' => \request()->image
-            ])
+                'image' => request()->image->store('uploads', 'public'),
+            ]);
         }
     }
 }
