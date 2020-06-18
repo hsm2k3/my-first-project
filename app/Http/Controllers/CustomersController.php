@@ -103,7 +103,15 @@ class CustomersController extends Controller
 
     private function validateRequest()
     {
-        return tap(request()->validate([
+
+        return request()->validate([
+            'name' => 'required|min:3',
+            'email' => 'required|email',
+            'active' => 'required',
+            'company_id' => 'required',
+            'image' => 'sometimes|file|image|max:5120'
+        ]);
+        /*return tap(request()->validate([
             'name' => 'required|min:3',
             'email' => 'required|email',
             'active' => 'required',
@@ -116,7 +124,7 @@ class CustomersController extends Controller
                     'image' => 'file|image|max:5120'
                 ]);
             }
-        });
+        });*/
 /*
         $validatedData = request()->validate([
             'name' => 'required|min:3',
